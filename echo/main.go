@@ -1,7 +1,8 @@
 package main
 
 import (
-	"net/http"
+	"echo/configs"
+	"echo/routes"
 
 	"github.com/labstack/echo/v4"
 )
@@ -9,9 +10,11 @@ import (
 func main() {
 	e := echo.New()
 
-	e.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, &echo.Map{"data": "Hello from Echo & MongoDB"})
-	})
+	// run database
+	configs.ConnectDB()
+
+	//routes
+	routes.UserRoute(e)
 
 	e.Logger.Fatal(e.Start(":6000"))
 }
